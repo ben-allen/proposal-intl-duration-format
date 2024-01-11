@@ -550,22 +550,22 @@ contributors: Ujjwal Sharma, Younies Mahmoud
             <td>[[MillisecondsStyle]]</td>
             <td>[[MillisecondsDisplay]]</td>
             <td>*"milliseconds"*</td>
-            <td>&laquo; *"long"*, *"short"*, *"narrow"*, <br/>*"numeric"* &raquo;</td>
+            <td>&laquo; *"long"*, *"short"*, *"narrow"*, <br/>*"fractional"* &raquo;</td>
             <td>*"numeric"*</td>
           </tr>
           <tr>
             <td>[[MicrosecondsStyle]]</td>
             <td>[[MicrosecondsDisplay]]</td>
             <td>*"microseconds"*</td>
-            <td>&laquo; *"long"*, *"short"*, *"narrow"*, <br/>*"numeric"* &raquo;</td>
-            <td>*"numeric"*</td>
+            <td>&laquo; *"long"*, *"short"*, *"narrow"*, <br/>*"fractional"* &raquo;</td>
+            <td>*"fractional"*</td>
           </tr>
           <tr>
             <td>[[NanosecondsStyle]]</td>
             <td>[[NanosecondsDisplay]]</td>
             <td>*"nanoseconds"*</td>
-            <td>&laquo; *"long"*, *"short"*, *"narrow"*, <br/>*"numeric"* &raquo;</td>
-            <td>*"numeric"*</td>
+            <td>&laquo; *"long"*, *"short"*, *"narrow"*, <br/>*"fractional"* &raquo;</td>
+            <td>*"fractional"*</td>
           </tr>
         </table>
     </emu-table>
@@ -687,6 +687,8 @@ contributors: Ujjwal Sharma, Younies Mahmoud
                 1. If _v_ is not *undefined*, set _v_ to 𝔽(_v_).
               1. Else,
                 1. Assert: _v_ is not *undefined*.
+              1. If _v_ is *"fractional"*, then
+                1. Set _v_ to *"numeric"*.
               1. If _v_ is not *undefined*, then
                 1. Perform ! CreateDataPropertyOrThrow(_options_, _p_, _v_).
             1. Return _options_.
