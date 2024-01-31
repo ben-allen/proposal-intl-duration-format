@@ -268,11 +268,98 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-partitionnumericunits" type="abstract operation">
+    <emu-clause id="sec-formatnumerichoursminutesseconds" type="abstract operation">
       <h1>
-        PartitionNumericUnits (
+        FormatNumericHoursMinutesSeconds (
           _durationFormat_: a DurationFormat Object,
           _duration_: a Duration Record,
+          _nfOpts_: an Object,
+        ): a List of Records.
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It creates and returns a List of Records with all the corresponding parts of time units with styles *"numeric"* or *"2-digit"* according to the effective locale and the formatting options of _durationFormat_.
+        </dd>
+      </dl>
+
+      <emu-alg>
+        1. Let _numericPartsList_ be a new empty List.
+        1. Let _numberingSystem_ be _durationFormat_.[[NumberingSystem]].
+        1. Let _separator_ be _durationFormat_.[[digitalFormat]].[[&lt;_numberingSystem_&gt;]].[[hoursMinutesSeparator]].
+        1. Let _style_ be _durationFormat_.[[HoursStyle]].
+        1. Let _value_ be _duration_.[[Hours]].
+        1. If _style_ is *"2-digit"*, then
+          1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"minimumIntegerDigits"*, *2*<sub>𝔽</sub>).
+        1. Let _nf_ be ! Construct(%NumberFormat%, &laquo; _durationFormat_.[[Locale]], _nfOpts_ &raquo;).
+        1. Let _parts_ be ! PartitionNumberPattern(_nf_, _value_).
+        1. For each Record { [[Type]], [[Value]] } _part_ of _parts_, do
+          1. Append the Record { [[Type]]: _part_.[[Type]], [[Value]]: _part_.[[Value]], [[Unit]]: *"hour"* } to _numericPartsList_.
+          1. Append the Record { [[Type]]: *"literal"*, [[Value]]: _separator_, [[Unit]]: ~empty~ } to _numericPartsList_.
+        1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, "signDisplay", "never").
+        1. Let _minutesSecondsList_ be FormatNumericMinutesSeconds(_durationFormat_, _duration_, _nfOpts_).
+        1. For each Record { [[Type]], [[Value]], [[Unit]] } _part_ of _minutesSecondsList_, do
+          1. Append _part_ to _numericPartsList_.
+        1. Return _numericPartsList_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-formatnumericminutesseconds" type="abstract operation">
+      <h1>
+        FormatNumericMinutesSeconds (
+          _durationFormat_: a DurationFormat Object,
+          _duration_: a Duration Record,
+          _nfOpts_: an Object.
+        ): A List of Records.
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It creates and returns a List of Records with all the corresponding parts of time units with styles *"numeric"* or *"2-digit"* according to the effective locale and the formatting options of _durationFormat_.
+        </dd>
+      </dl>
+
+      <emu-alg>
+        1. Let _numericPartsList_ be a new empty List.
+        1. Let _numberingSystem_ be _durationFormat_.[[NumberingSystem]].
+        1. Let _separator_ be _durationFormat_.[[digitalFormat]].[[&lt;_numberingSystem_&gt;]].[[minutesSecondsSeparator]].
+        1. Let _style_ be durationFormat.[[MinutesStyle]].
+        1. Let _value_ be _duration_.[[Minutes]].
+        1. If _style_ is *"2-digit"*, then
+          1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"minimumIntegerDigits"*, *2*<sub>𝔽</sub>).
+        1. Let _nf_ be !Construct(%NumberFormat%, &laquo; _duration_format_.[[Locale]], _nfOpts_ &raquo;).
+        1. Let _parts_ be ! PartitionNumberPattern(_nf_, _value_).
+        1. For each Record { [[Type]], [[Value]] } _part_ of _parts_, do
+          1. Append the Record { [[Type]]: _part_.[[Type]], [[Value]]: _part_.[[Value]], [[Unit]]: *"minute"* } to _numericPartsList_.
+          1. Append the Record { [[Type]]: *"literal"*, [[Value]]: _separator_, [[Unit]]: ~empty~ } to _numericPartsList_.
+        1. Return _numericPartsList_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-formatnumericseconds" type="abstract operation">
+      <h1>
+        FormatNumericSeconds (
+          _durationFormat_: a DurationFormat Object,
+          _duration_: a Duration Record,
+          _nfOpts_: an Object.
+        ): A List of Records.
+      </h1>
+      <dl class="header">
+        <dt>description</dt>
+        <dd>It creates and returns a List of Records with all the corresponding parts of time units with styles *"numeric"* or *"2-digit"* according to the effective locale and the formatting options of _durationFormat_.
+        </dd>
+      </dl>
+
+      <emu-alg>
+        1. Return *undefined*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-formatnumericunits" type="abstract operation">
+      <h1>
+        FormatNumericUnits (
+          _durationFormat_: a DurationFormat Object,
+          _duration_: a Duration Record,
+          _firstNumericUnit_: a String,
+          _nfOpts_: an Object.
         ): a List of Records
       </h1>
       <dl class="header">
@@ -281,71 +368,14 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </dl>
 
       <emu-alg>
-        1. Let _dataLocale_ be _durationFormat_.[[DataLocale]].
-        1. Let _dataLocaleData_ be %DurationFormat%.[[LocaleData]].[[&lt;_dataLocale_&gt;]].
-        1. Let _numberingSystem_ be _durationFormat_.[[NumberingSystem]].
-        1. Let _hoursMinutesSeparator_ be _dataLocaleData_.[[digitalFormat]].[[&lt;numberingSystem&gt;]].[[hoursMinutesSeparator]].
-        1. Let _minutesSecondsSeparator_ be _dataLocaleData_.[[digitalFormat]].[[&lt;_numberingSystem_&gt;]].[[minutesSecondsSeparator]].
-        1. Set _hoursMinutesSeparator_ to *undefined*.
-        1. Set _minutesSecondsSeparator_ to *undefined*.
+        1. Assert: _firstNumericUnit_ is *"hours"*, *"minutes"*, or *"seconds"*.
+        1. If _firstNumericUnit_ is *"hours"*, then
+          1. Return FormatNumericHoursMinutesSeconds(_durationFormat_, _duration_, _nfOpts_).
+        1. If _firstNumericUnit_ is *"minutes"*, then
+          1. Return FormatNumericMinutesSeconds(_durationFormat_, _duration_, _nfOpts_).
+        1. Else,
+          1. Return FormatNumericSeconds(_durationFormat_, _duration_, _nfOpts_).
       </emu-alg>
-
-      <emu-table id="table-partition-numeric-time-styles">
-        <emu-caption>DurationFormat instance internal slots used to format time units</emu-caption>
-        <table class="real-table">
-          <thead>
-            <tr>
-              <th>Value Field</th>
-              <th>Style Slot</th>
-              <th>Display Slot</th>
-              <th>Unit</th>
-              <th>NumberFormat Unit</th>
-            </tr>
-          </thead>
-          <tr>
-            <td>[[Hours]]</td>
-            <td>[[HoursStyle]]</td>
-            <td>[[HoursDisplay]]</td>
-            <td>*"hours"*</td>
-            <td>*"hour"*</td>
-          </tr>
-          <tr>
-            <td>[[Minutes]]</td>
-            <td>[[MinutesStyle]]</td>
-            <td>[[MinutesDisplay]]</td>
-            <td>*"minutes"*</td>
-            <td>*"minute"*</td>
-          </tr>
-          <tr>
-            <td>[[Seconds]]</td>
-            <td>[[SecondsStyle]]</td>
-            <td>[[SecondsDisplay]]</td>
-            <td>*"seconds"*</td>
-            <td>*"second"*</td>
-          </tr>
-          <tr>
-            <td>[[Milliseconds]]</td>
-            <td>[[MillisecondsStyle]]</td>
-            <td>[[MillisecondsDisplay]]</td>
-            <td>*"milliseconds"*</td>
-            <td>*"millisecond"*</td>
-          </tr>
-          <tr>
-            <td>[[Microseconds]]</td>
-            <td>[[MicrosecondsStyle]]</td>
-            <td>[[MicrosecondsDisplay]]</td>
-            <td>*"microseconds"*</td>
-            <td>*"microsecond"*</td>
-          </tr>
-          <tr>
-            <td>[[Nanoseconds]]</td>
-            <td>[[NanosecondsStyle]]</td>
-            <td>[[NanosecondsDisplay]]</td>
-            <td>*"nanoseconds"*</td>
-            <td>*"nanosecond"*</td>
-          </tr>
-        </table>
-      </emu-table>
     </emu-clause>
 
     <emu-clause id="sec-partitiondurationformatpattern" type="abstract operation">
