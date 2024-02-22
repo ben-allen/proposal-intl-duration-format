@@ -457,7 +457,6 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         1. Let _minutesDisplay_ be _durationFormat_.[[MinutesDisplay]].
         1. Let _secondsValue_ be _duration_.[[Seconds]].
         1. Let _secondsDisplay_ be _durationFormat_.[[SecondsDisplay]].
-        1. Set _secondsValue_ be _secondsValue_ + AddFractionalDigits(_durationFormat_, _duration_).
         1. If _hoursValue_ is not 0 or _hoursDisplay_ is not *"auto"*, then
           1. Let _hoursFormatted_ be *true*.
         1. Else,
@@ -489,6 +488,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
 
     <emu-clause id="sec-listformatparts" type="abstract operation">
       <h1>ListFormatParts (
+          _durationFormat_: a DurationFormat Object
           _nfResult_: a List of Records,
           ): a List
       </h1>
@@ -496,6 +496,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         <dt>description</dt>
         <dd>It creates and returns a List with all the corresponding parts as formatted by ListFormat.</dd>
       </dl>
+      <emu-alg>
         1. Let _lfOpts_ be OrdinaryObjectCreate(*null*).
         1. Perform ! CreateDataPropertyOrThrow(_lfOpts_, *"type"*, *"unit"*).
         1. Let _listStyle_ be _durationFormat_.[[Style]].
@@ -584,7 +585,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
               1. For each Record { [[Type]], [[Value]] } _part_ of _parts_, do
                 1. Append the Record { [[Type]]: _part_.[[Type]], [[Value]]: _part_[[Value]], [[Unit]]: _numberFormatUnit_ } to _list_.
               1. Append _list_ to _result_.
-        1. Return ListFormatParts(_result_).
+        1. Return ListFormatParts(_durationFormat_, _result_).
       </emu-alg>
 
     <emu-table id="table-partition-duration-format-pattern">
