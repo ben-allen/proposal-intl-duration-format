@@ -297,7 +297,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
 
     <emu-clause id="sec-formathours" type="abstract operation">
       <h1>
-        FormatHours (
+        FormatNumericHours (
           _locale_: a Unicode canonicalized locale identifier,
           _hoursStyle_: a String,
           _hoursValue_: an integer,
@@ -310,7 +310,6 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </dl>
 
       <emu-alg>
-        1. Let _hoursStyle_ be _durationFormat_.[[HoursStyle]].
         1. Assert: _hoursStyle_ is *"numeric"* or _hoursStyle_ is *"2-digit"*.
         1. Let _nfOpts_ be OrdinaryObjectCreate(*null*).
         1. If _hoursStyle_ is *"2-digit"*, then
@@ -326,7 +325,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
 
     <emu-clause id="sec-formatminutes" type="abstract operation">
       <h1>
-        FormatMinutes (
+        FormatNumericMinutes (
           _durationFormat_: a DurationFormat Object,
           _minutesValue_: an integer,
           _hoursDisplayed_: a Boolean,
@@ -361,7 +360,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
 
     <emu-clause id="sec-formatseconds" type="abstract operation">
       <h1>
-        FormatSeconds (
+        FormatNumericSeconds (
           _durationFormat_: a DurationFormat Object,
           _secondsValue_: an integer,
           _minutesDisplayed_ : a Boolean,
@@ -446,14 +445,14 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         1. If _hoursFormatted_ is *true*, then
           1. Let _hoursStyle_ be _durationFormat_.[[HoursStyle]].
           1. Let _locale_ be _durationFormat_.[[Locale]].
-          1. Append FormatHours(_locale_, _hoursStyle_, _hoursValue_, _signDisplayed_) to _numericPartsList_.
+          1. Append FormatNumericHours(_locale_, _hoursStyle_, _hoursValue_, _signDisplayed_) to _numericPartsList_.
           1. Set _signDisplayed_ to *false*.
         1. If _minutesFormatted_ is *true*, then
           1. Let _minutesStyle_ be _durationFormat_.[[MinutesStyle]].
-          1. Append FormatMinutes(_minutesValue_, _minutesStyle_, _hoursFormatted_, _signDisplayed_) to _numericPartsList_.
+          1. Append FormatNumericMinutes(_minutesValue_, _minutesStyle_, _hoursFormatted_, _signDisplayed_) to _numericPartsList_.
           1. Set _signDisplayed_ to *false*.
         1. If _secondsFormatted_ is *true*, then
-          1. Append FormatSeconds(_durationFormat_, _secondsValue_, _minutesFormatted_, _signDisplayed_) to _numericPartsList_.
+          1. Append FormatNumericSeconds(_durationFormat_, _secondsValue_, _minutesFormatted_, _signDisplayed_) to _numericPartsList_.
           1. Set _signDisplayed_ to *false*.
         1. Return _numericPartsList_.
       </emu-alg>
