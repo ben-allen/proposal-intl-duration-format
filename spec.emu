@@ -285,12 +285,9 @@ contributors: Ujjwal Sharma, Younies Mahmoud
 
       <emu-alg>
         1. Assert: _unit_ is *"seconds"*, *"milliseconds"*, or *"microseconds"*.
-        1. If _unit_ is *"seconds"*, then
-          1. If _durationFormat_.[[MillisecondsStyle]] is *"fractional"*, return *true*.
-        1. If _unit_ is *"milliseconds"*, then
-          1. If _durationFormat_.[[MicrosecondsStyle]] is *"fractional"*, return *true*.
-        1. If _unit_ is *"microseconds"*, then
-          1. If _durationFormat_.[[NanosecondsStyle]] is *"fractional"*, return *true*.
+        1. If _unit_ is *"seconds"* and _durationFormat_.[[MillisecondsStyle]] is *"fractional"*, return *true*.
+        1. Else if _unit_ is *"milliseconds"* and _durationFormat_.[[MicrosecondsStyle]] is *"fractional"*, return *true*.
+        1. Else if _unit_ is *"microseconds"* and _durationFormat_.[[NanosecondsStyle]] is *"fractional"*, return *true*.
         1. Return *false*.
       </emu-alg>
     </emu-clause>
