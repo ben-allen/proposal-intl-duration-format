@@ -307,7 +307,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </dl>
 
       <emu-alg>
-        1. Assert: _hoursStyle_ is *"numeric"* or _hoursStyle_ is *"2-digit"*.
+        1. Let _result_ be a new empty List.
         1. Let _nfOpts_ be OrdinaryObjectCreate(*null*).
         1. If _hoursStyle_ is *"2-digit"*, then
           1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"minimumIntegerDigits"*, *2*<sub>𝔽</sub>).
@@ -316,7 +316,8 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         1. Let _nf_ be ! Construct(%NumberFormat%, &laquo; _locale_ &raquo;, _nfOpts_).
         1. Let _hoursParts_ be ! PartitionNumberPattern(_nf_, _hoursValue_).
         1. For each Record { [[Type]], [[Value]] } _part_ of _hoursParts_, do
-          1. Return the Record { [[Type]]: _part_.[[Type]], [[Value]]: _part_.[[Value]], [[Unit]]: *"hour"* }.
+          1. Append the Record { [[Type]]: _part_.[[Type]], [[Value]]: _part_.[[Value]], [[Unit]]: *"hour"* } to _result_.
+        1. Return _result_.
       </emu-alg>
     </emu-clause>
 
