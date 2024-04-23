@@ -295,7 +295,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-formathours" type="abstract operation">
+    <emu-clause id="sec-formatnumerichours" type="abstract operation">
       <h1>
         FormatNumericHours (
           _locale_: a Unicode canonicalized locale identifier,
