@@ -321,7 +321,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-formatminutes" type="abstract operation">
+    <emu-clause id="sec-formatnumericminutes" type="abstract operation">
       <h1>
         FormatNumericMinutes (
           _durationFormat_: a DurationFormat Object,
@@ -355,7 +355,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-formatseconds" type="abstract operation">
+    <emu-clause id="sec-formatnumericseconds" type="abstract operation">
       <h1>
         FormatNumericSeconds (
           _durationFormat_: a DurationFormat Object,
