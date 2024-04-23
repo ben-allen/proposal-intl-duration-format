@@ -332,7 +332,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </h1>
       <dl class="header">
         <dt>description</dt>
-        <dd>It creates a List of Records containing the formatted parts of the hours unit of _duration_ when the requested style is *"numeric"* or *"2-digit"* according to the effective locale and the formatting options of _durationFormat_.</dd>
+        <dd>It creates a List of Records containing the formatted parts of the minutes unit of _duration_ when the requested style is *"numeric"* or *"2-digit"* according to the effective locale and the formatting options of _durationFormat_.</dd>
       </dl>
 
       <emu-alg>
