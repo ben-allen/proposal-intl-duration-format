@@ -463,12 +463,12 @@ contributors: Ujjwal Sharma, Younies Mahmoud
     <emu-clause id="sec-listformatparts" type="abstract operation">
       <h1>ListFormatParts (
           _durationFormat_: a DurationFormat Object
-          _nfResult_: a List of Lists of Records,
+          _partitionedPartsList_: a List of Lists of Records,
           ): a List
       </h1>
       <dl class="header">
         <dt>description</dt>
-        <dd>It creates and returns a List with all the corresponding parts as formatted by ListFormat.</dd>
+        <dd>It creates and returns a List with all the corresponding parts according to the effective locale and the formatting options of _durationFormat_.</dd>
       </dl>
       <emu-alg>
         1. Let _lfOpts_ be OrdinaryObjectCreate(*null*).
@@ -479,26 +479,26 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         1. Perform ! CreateDataPropertyOrThrow(_lfOpts_, *"style"*, _listStyle_).
         1. Let _lf_ be ! Construct(%ListFormat%, &laquo; _durationFormat_.[[Locale]], _lfOpts_ &raquo;).
         1. Let _strings_ be a new empty List.
-        1. For each element _parts_ of _nfResult_, do
+        1. For each element _parts_ of _partitionedPartsList_, do
           1. Let _string_ be the empty String.
           1. For each Record { [[Type]], [[Value]], [[Unit]] } _part_ in _parts_, do
             1. Set _string_ to the string-concatenation of _string_ and _part_.[[Value]].
           1. Append _string_ to _strings_.
-        1. Let _formatted_ be CreatePartsFromList(_lf_, _strings_).
-        1. Let _nfResultIndex_ be 0.
-        1. Let _nfResultLength_ be the number of elements in _nfResult_.
-        1. Let _flattened_ be a new empty List.
-        1. For each Record { [[Type]], [[Value]] } _listPart_ in _formatted_, do
+        1. Let _formattedPartsList_ be CreatePartsFromList(_lf_, _strings_).
+        1. Let _partitionedPartsIndex_ be 0.
+        1. Let _partitionedLength_ be the number of elements in _partitionedPartsList_.
+        1. Let _flattenedPartsList_ be a new empty List.
+        1. For each Record { [[Type]], [[Value]] } _listPart_ in _formattedPartsList_, do
           1. If _listPart_.[[Type]] is *"element"*, then
-            1. Assert: _nfResultIndex_ &lt; _nfResultLength_.
-            1. Let _parts_ be _nfResult_[_nfResultIndex_].
+            1. Assert: _partitionedPartsIndex_ &lt; _partitionedLength_.
+            1. Let _parts_ be _partitionedPartsList_[_partitionedPartsIndex_].
             1. For each Record { [[Type]], [[Value]], [[Unit]] } _part_ in _parts_, do
-              1. Append _part_ to _flattened_.
-            1. Set _nfResultIndex_ to _nfResultIndex_ + 1.
+              1. Append _part_ to _flattenedPartsList_.
+            1. Set _partitionedPartsIndex_ to _partitionedPartsIndex_ + 1.
           1. Else,
             1. Assert: _listPart_.[[Type]] is *"literal"*.
-            1. Append the Record { [[Type]]: *"literal"*, [[Value]]: _listPart_.[[Value]], [[Unit]]: ~empty~ } to _flattened_.
-        1. Return _flattened_.
+            1. Append the Record { [[Type]]: *"literal"*, [[Value]]: _listPart_.[[Value]], [[Unit]]: ~empty~ } to _flattenedPartsList_.
+        1. Return _flattenedPartsList_.
       </emu-alg>
     </emu-clause>
 
