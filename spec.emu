@@ -468,7 +468,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
       </h1>
       <dl class="header">
         <dt>description</dt>
-        <dd>It creates and returns a List with all the corresponding parts as formatted by ListFormat.</dd>
+        <dd>It creates and returns a List with all the corresponding parts according to the effective locale and the formatting options of _durationFormat_.</dd>
       </dl>
       <emu-alg>
         1. Let _lfOpts_ be OrdinaryObjectCreate(*null*).
