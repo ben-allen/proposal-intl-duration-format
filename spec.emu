@@ -378,15 +378,13 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         1. If _minutesDisplayed_ is *true*, then
           1. Let _separator_ be _durationFormat_.[[DigitalFormat]].[[MinutesSecondsSeparator]].
           1. Append the Record { [[Type]]: *"literal"*, [[Value]]: _separator_, [[Unit]]: ~empty~ } to _result_.
-        1. Let _minutesStyle_ be _durationFormat_.[[MinutesStyle]].
-        1. Assert: _minutesStyle_ is *"numeric"* or _minutesStyle_ is *"2-digit"*.
         1. Let _nfOpts_ be OrdinaryObjectCreate(*null*).
         1. If _secondsStyle_ is *"2-digit"*, then
           1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"minimumIntegerDigits"*, *2*<sub>𝔽</sub>).
-          1. If _signDisplayed_ is *false*, then
-            1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"signDisplay"*, *"never"*).
+        1. If _signDisplayed_ is *false*, then
+          1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"signDisplay"*, *"never"*).
         1. Let _nf_ be ! Construct(%NumberFormat%, &laquo; _durationFormat_.[[Locale]], _nfOpts_ &raquo;).
-        1. If _hasFractionalSubseconds_ is not 0, then
+        1. If _hasFractionalSubseconds_ is *true*, then
           1. If _durationFormat_.[[FractionalDigits]] is *undefined*, then
             1. Let _maximumFractionDigits_ be *9*<sub>𝔽</sub>.
             1. Let _minimumFractionDigits_ be *+0*<sub>𝔽</sub>.
@@ -427,31 +425,30 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         1. Let _secondsValue_ be _duration_.[[Seconds]].
         1. Let _hasFractionalSubseconds_ be *false*.
         1. If _duration_.[[Milliseconds]] is not 0 or _duration_.[[Microseconds]] is not 0 or _duration_.[[Nanoseconds]] is not 0, then
-          1. Set _secondsValue_ to _secondsValue_ + AddFractionalDigits(_durationFormat_, _duration_).
           1. Set _hasFractionalSubseconds_ to *true*.
+          1. Set _secondsValue_ to _secondsValue_ + AddFractionalDigits(_durationFormat_, _duration_).
         1. Let _secondsDisplay_ be _durationFormat_.[[SecondsDisplay]].
-        1. If _hoursValue_ is not 0 or _hoursDisplay_ is not *"auto"*, then
-          1. Let _hoursFormatted_ be *true*.
-        1. Else,
-          1. Let _hoursFormatted_ be *false*.
+        1. Let _hoursFormatted_ be *false*.
+        1. If _firstNumericUnit_ is *"hours"*, then
+          1. If _hoursValue_ is not 0 or _hoursDisplay_ is not *"auto"*, then
+            1. Set _hoursFormatted_ to *true*.
         1. If _secondsValue_ is not 0 or _secondsDisplay_ is not *"auto"*, then
           1. Let _secondsFormatted_ be *true*.
         1. Else,
           1. Let _secondsFormatted_ be *false*.
-        1. If _hoursFormatted_ is *true* and _secondsFormatted_ is *true*, then
-          1. Let _minutesFormatted_ be *true*.
-        1. Else if _minutesValue_ is not 0 or _minutesDisplay_ is not *"auto"*, then
-          1. Let _minutesFormatted_ be *true*.
-        1. Else,
-          1. Let _minutesFormatted_ be *false*.
+        1. Let _minutesFormatted_ be *false*.
+        1. If _firstNumericUnit_ is *"hours"* or _firstNumericUnit_ is *"minutes"*, then
+          1. If _hoursFormatted_ is *true* and _secondsFormatted_ is *true*, then
+            1. Set _minutesFormatted_ to *true*.
+          1. Else if _minutesValue_ is not 0 or _minutesDisplay_ is not *"auto"*, then
+            1. Set _minutesFormatted_ to *true*.
         1. If _hoursFormatted_ is *true*, then
           1. Let _hoursStyle_ be _durationFormat_.[[HoursStyle]].
           1. Let _locale_ be _durationFormat_.[[Locale]].
           1. Append FormatNumericHours(_locale_, _hoursStyle_, _hoursValue_, _signDisplayed_) to _numericPartsList_.
           1. Set _signDisplayed_ to *false*.
         1. If _minutesFormatted_ is *true*, then
-          1. Let _minutesStyle_ be _durationFormat_.[[MinutesStyle]].
-          1. Append FormatNumericMinutes(_minutesValue_, _minutesStyle_, _hoursFormatted_, _signDisplayed_) to _numericPartsList_.
+          1. Append FormatNumericMinutes(_durationFormat_, _minutesValue_, _hoursFormatted_, _signDisplayed_) to _numericPartsList_.
           1. Set _signDisplayed_ to *false*.
         1. If _secondsFormatted_ is *true*, then
           1. Append FormatNumericSeconds(_durationFormat_, _secondsValue_, _minutesFormatted_, _signDisplayed_, _hasFractionalSubseconds_) to _numericPartsList_.
