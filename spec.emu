@@ -367,7 +367,6 @@ contributors: Ujjwal Sharma, Younies Mahmoud
           _secondsValue_: an integer,
           _minutesDisplayed_ : a Boolean,
           _signDisplayed_: a Boolean,
-          _hasFractionalSubseconds_: a Boolean,
           ) : a List of Records
       </h1>
       <dl class="header">
@@ -390,16 +389,15 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         1. If _signDisplayed_ is *false*, then
           1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"signDisplay"*, *"never"*).
         1. Let _nf_ be ! Construct(%NumberFormat%, &laquo; _durationFormat_.[[Locale]], _nfOpts_ &raquo;).
-        1. If _hasFractionalSubseconds_ is *true*, then
-          1. If _durationFormat_.[[FractionalDigits]] is *undefined*, then
-            1. Let _maximumFractionDigits_ be *9*<sub>𝔽</sub>.
-            1. Let _minimumFractionDigits_ be *+0*<sub>𝔽</sub>.
-          1. Else,
-            1. Let _maximumFractionDigits_ be _durationFormat_.[[FractionalDigits]].
-            1. Let _minimumFractionDigits_ be _durationFormat_.[[FractionalDigits]].
-          1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"maximumFractionDigits"*, _maximumFractionDigits_).
-          1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"minimumFractionDigits"*, _minimumFractionDigits_).
-          1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"roundingMode"*, *"trunc"*).
+        1. If _durationFormat_.[[FractionalDigits]] is *undefined*, then
+          1. Let _maximumFractionDigits_ be *9*<sub>𝔽</sub>.
+          1. Let _minimumFractionDigits_ be *+0*<sub>𝔽</sub>.
+        1. Else,
+          1. Let _maximumFractionDigits_ be _durationFormat_.[[FractionalDigits]].
+          1. Let _minimumFractionDigits_ be _durationFormat_.[[FractionalDigits]].
+        1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"maximumFractionDigits"*, _maximumFractionDigits_).
+        1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"minimumFractionDigits"*, _minimumFractionDigits_).
+        1. Perform ! CreateDataPropertyOrThrow(_nfOpts_, *"roundingMode"*, *"trunc"*).
         1. Let _secondsParts_ be ! PartitionNumberPattern(_nf_, _secondsValue_).
         1. For each Record { [[Type]], [[Value]] } _part_ of _secondsParts_, do
           1. Append the Record { [[Type]]: _part_.[[Type]], [[Value]]: _part_.[[Value]], [[Unit]]: *"second"* } to _result_.
@@ -429,9 +427,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
         1. Let _minutesValue_ be _duration_.[[Minutes]].
         1. Let _minutesDisplay_ be _durationFormat_.[[MinutesDisplay]].
         1. Let _secondsValue_ be _duration_.[[Seconds]].
-        1. Let _hasFractionalSubseconds_ be *false*.
         1. If _duration_.[[Milliseconds]] is not 0 or _duration_.[[Microseconds]] is not 0 or _duration_.[[Nanoseconds]] is not 0, then
-          1. Set _hasFractionalSubseconds_ to *true*.
           1. Set _secondsValue_ to _secondsValue_ + AddFractionalDigits(_durationFormat_, _duration_).
         1. Let _secondsDisplay_ be _durationFormat_.[[SecondsDisplay]].
         1. Let _hoursFormatted_ be *false*.
@@ -455,7 +451,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
           1. Append FormatNumericMinutes(_durationFormat_, _minutesValue_, _hoursFormatted_, _signDisplayed_) to _numericPartsList_.
           1. Set _signDisplayed_ to *false*.
         1. If _secondsFormatted_ is *true*, then
-          1. Append FormatNumericSeconds(_durationFormat_, _secondsValue_, _minutesFormatted_, _signDisplayed_, _hasFractionalSubseconds_) to _numericPartsList_.
+          1. Append FormatNumericSeconds(_durationFormat_, _secondsValue_, _minutesFormatted_, _signDisplayed_) to _numericPartsList_.
           1. Set _signDisplayed_ to *false*.
         1. Return _numericPartsList_.
       </emu-alg>
@@ -559,7 +555,7 @@ contributors: Ujjwal Sharma, Younies Mahmoud
               1. Let _parts_ be ! PartitionNumberPattern(_nf_, _value_).
               1. Let _list_ be a new empty List.
               1. For each Record { [[Type]], [[Value]] } _part_ of _parts_, do
-                1. Append the Record { [[Type]]: _part_.[[Type]], [[Value]]: _part_[[Value]], [[Unit]]: _numberFormatUnit_ } to _list_.
+                1. Append the Record { [[Type]]: _part_.[[Type]], [[Value]]: _part_.[[Value]], [[Unit]]: _numberFormatUnit_ } to _list_.
               1. Append _list_ to _result_.
         1. Return ListFormatParts(_durationFormat_, _result_).
       </emu-alg>
